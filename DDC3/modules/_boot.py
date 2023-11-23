@@ -9,7 +9,7 @@ import machine, sdcard
 from ledColor import ledColor
 from machine import Pin, SPI
 
-version = 2.20
+version = 2.21
 
 p3 = Pin(3,Pin.OUT)
 p3.value(1)
@@ -111,7 +111,6 @@ from ledColor import ledColor
 import time 
 import os
 
-
 if 'webrepl_cfg.py' in os.listdir():
     if 'network_cfg.py' in os.listdir():
         from network_cfg import STA_SSID, STA_PASS
@@ -147,6 +146,59 @@ if 'webrepl_cfg.py' in os.listdir():
             print('Type', "os.remove('network_cfg.py')", 'to disable WebREPL')
 else:
     print('Type "import webrepl_setup" to use WebREPL')
+
+import Nokia5110 # For Nokia 5110 Screen (if connected)
+"""
+        )
+
+try:
+    os.stat('Nokia5110.py')
+except OSError:
+    print('Writing Nokia5110 file')
+    with open("Nokia5110.py", "w") as n:
+        n.write(
+            """\
+import pcd8544
+import machine
+from machine import Pin, SoftSPI
+import sys
+import time
+import ubinascii
+
+spi = machine.SoftSPI(baudrate=1000000, polarity=0, phase=0, bits=8, sck=21, mosi=20, miso=0)
+cs = Pin(2)
+dc = Pin(3)
+rst = Pin(1)
+
+# Text
+##################################################################
+
+# microPython currently only supports 8x8 pixel font size
+lcd = pcd8544.PCD8544_FRAMEBUF(spi, cs, dc, rst)
+lcd.reset()
+lcd.init()
+lcd.fill(0)
+lcd.text('Loading...', 0, 0, 1)
+lcd.show()
+
+time.sleep(0.5) # Gives the appearance that things are loading, but really the above just shows how to print text
+##################################################################
+
+# bitmap (bmp)
+##################################################################
+lcd = pcd8544.PCD8544(spi, cs, dc, rst)
+
+lcd.reset()
+lcd.init()
+
+# toggle display, image persists in DDRAM
+#lcd.power_off()
+#lcd.power_on()
+
+lcd.contrast(0x3B, pcd8544.BIAS_1_40, pcd8544.TEMP_COEFF_0)
+lcd.clear()
+lcd.data(bytearray(ubinascii.unhexlify("ffffffffffffffffffffffffff0303f3f3f3f3f3f30f0fffffc3c33f3fffff3f3fc3c3ffff0f0ff3f3f3f3f3f3c3c3ffff0303cfcf3f3fcfcf0303ffffc3c33f3fffff3f3fc3c3ffffffffffffffffffffffffffffffffffffffffffffffffffff0000f9f9f9f9f9f9fefeffffffffffff0000ffffffffffffc0c03f3f3f3f33330303ffff0000fffff0f0ffff0000ffffffffffff0000ffffffffffffffffffffffffffffffffff03030303030303030303030313f3130303c38343438303c38343438303834343438303c3030303c3030343438303034343f34343030343d3030303834343438303c383434383030303030303030303030303030300000000000000000000000004070400000700000007000700000007000304040403000182848201000205c52744000000030402000004070400000304040403000700000007000000000000000000000000000000000000000000000000000000000000008040404080000000000000000000000000000708080807000001cf0100000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f10101008001f02010102000e15151506000815151e100001010f11090000111f1000000e1111110e001f0201011e0000000000000000000000000000000000000000")))
+##################################################################
 """
         )
 '''
@@ -225,7 +277,6 @@ from ledColor import ledColor
 import time 
 import os
 
-
 if 'webrepl_cfg.py' in os.listdir():
     if 'network_cfg.py' in os.listdir():
         from network_cfg import STA_SSID, STA_PASS
@@ -261,6 +312,59 @@ if 'webrepl_cfg.py' in os.listdir():
             print('Type', "os.remove('network_cfg.py')", 'to disable WebREPL')
 else:
     print('Type "import webrepl_setup" to use WebREPL')
+
+import Nokia5110 # For Nokia 5110 Screen (if connected)
+"""
+        )
+
+try:
+    os.stat('/sd/src/microPython/Nokia5110.py')
+except OSError:
+    print('Writing Nokia5110 file')
+    with open("/sd/src/microPython/Nokia5110.py", "w") as n:
+        n.write(
+            """\
+import pcd8544
+import machine
+from machine import Pin, SoftSPI
+import sys
+import time
+import ubinascii
+
+spi = machine.SoftSPI(baudrate=1000000, polarity=0, phase=0, bits=8, sck=21, mosi=20, miso=0)
+cs = Pin(2)
+dc = Pin(3)
+rst = Pin(1)
+
+# Text
+##################################################################
+
+# microPython currently only supports 8x8 pixel font size
+lcd = pcd8544.PCD8544_FRAMEBUF(spi, cs, dc, rst)
+lcd.reset()
+lcd.init()
+lcd.fill(0)
+lcd.text('Loading...', 0, 0, 1)
+lcd.show()
+
+time.sleep(0.5) # Gives the appearance that things are loading, but really the above just shows how to print text
+##################################################################
+
+# bitmap (bmp)
+##################################################################
+lcd = pcd8544.PCD8544(spi, cs, dc, rst)
+
+lcd.reset()
+lcd.init()
+
+# toggle display, image persists in DDRAM
+#lcd.power_off()
+#lcd.power_on()
+
+lcd.contrast(0x3B, pcd8544.BIAS_1_40, pcd8544.TEMP_COEFF_0)
+lcd.clear()
+lcd.data(bytearray(ubinascii.unhexlify("ffffffffffffffffffffffffff0303f3f3f3f3f3f30f0fffffc3c33f3fffff3f3fc3c3ffff0f0ff3f3f3f3f3f3c3c3ffff0303cfcf3f3fcfcf0303ffffc3c33f3fffff3f3fc3c3ffffffffffffffffffffffffffffffffffffffffffffffffffff0000f9f9f9f9f9f9fefeffffffffffff0000ffffffffffffc0c03f3f3f3f33330303ffff0000fffff0f0ffff0000ffffffffffff0000ffffffffffffffffffffffffffffffffff03030303030303030303030313f3130303c38343438303c38343438303834343438303c3030303c3030343438303034343f34343030343d3030303834343438303c383434383030303030303030303030303030300000000000000000000000004070400000700000007000700000007000304040403000182848201000205c52744000000030402000004070400000304040403000700000007000000000000000000000000000000000000000000000000000000000000008040404080000000000000000000000000000708080807000001cf0100000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f10101008001f02010102000e15151506000815151e100001010f11090000111f1000000e1111110e001f0201011e0000000000000000000000000000000000000000")))
+##################################################################
 """
         )
 '''
@@ -291,8 +395,12 @@ imReason = ''
 try:
     sd = sdcard.SDCard(spi, Pin(1))
 except:
-    useInternal = True
-    imReason = 'No SD Card Detected'
+    # retry
+    try:
+        sd = sdcard.SDCard(spi, Pin(1))
+    except:
+        useInternal = True
+        imReason = 'No SD Card Detected'
 
 # If SD Card is Present, Attempt to Mount it
 if(useInternal == False):
